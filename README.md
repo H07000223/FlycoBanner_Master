@@ -19,6 +19,7 @@ So I decide to code a libray with features below:
 * Supports page transformer (not often used in my daily work, just support this feature for others if needed)
 
 ##Demo
+![](https://github.com/H07000223/FlycoBanner_Master/blob/master/preview_FlycoBanner.gif)
 
 ####[Here is a DemoApk download](http://pkg.fir.im/4413327270042a997ca5c89d183fe3a91123a352?attname=FlycoBannerSamples.apk_1.0.0.apk&e=1442481251&token=LOvmia8oXF4xnLh0IdH05XMYpH6ENHNpARlmPc-T:EPF9BmqLQcTyKgbZ275uU9Zm0M8=)
 
