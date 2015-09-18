@@ -119,10 +119,10 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         if (scale < 0) {//scale not set in xml
             if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
                 Log.d(TAG, "MATCH_PARENT--->" + height);
-                itemHeight = isLoopEnable ? (int) (itemWidth * 0.5) : LayoutParams.MATCH_PARENT;
+                itemHeight = LayoutParams.MATCH_PARENT;
             } else if (height.equals(ViewGroup.LayoutParams.WRAP_CONTENT + "")) {
                 Log.d(TAG, "WRAP_CONTENT--->" + height);
-                itemHeight = isLoopEnable ? (int) (itemWidth * 0.5) : LayoutParams.MATCH_PARENT;
+                itemHeight = LayoutParams.WRAP_CONTENT;
             } else {
                 int[] systemAttrs = {android.R.attr.layout_height};
                 TypedArray a = context.obtainStyledAttributes(attrs, systemAttrs);
