@@ -157,7 +157,7 @@ sib
 
 |name|format|description|
 |:---:|:---:|:---:|
-| bb_scale | float |scale of Banner height and width,height/screenWidth,[0-1].scale is 0.5 default for LoopViewPager 
+| bb_scale | float |scale of Banner height and width,height/screenWidth
 | bb_isLoopEnable | boolean |is LoopViewPager or not,default true
 | bb_delay | integer |delay before start scroll,unit second,default 5 seconds
 | bb_period | integer |scroll period,unit second,default 5 seconds
