@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.flyco.banner.anim.select.ZoomInEnter;
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.banner.SimpleGuideBanner;
 import com.flyco.bannersamples.utils.DataProvider;
@@ -17,7 +17,7 @@ public class UserGuideActivity extends Activity {
     private Context context = this;
     private View decorView;
     private boolean isFromBannerHome;
-    private Class<? extends ViewPagerCompat.PageTransformer> transformerClass;
+    private Class<? extends ViewPager.PageTransformer> transformerClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

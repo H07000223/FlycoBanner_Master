@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 import com.flyco.banner.R;
 import com.flyco.banner.widget.LoopViewPager.FixedSpeedScroller;
 import com.flyco.banner.widget.LoopViewPager.LoopViewPager;
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     protected Context context;
     protected DisplayMetrics dm;
 
-    /** ViewPagerCompat */
-    protected ViewPagerCompat vp;
+    /** ViewPager */
+    protected ViewPager vp;
     protected LayoutParams lp_vp;
     protected List<E> list = new ArrayList<>();
     protected int currentPositon;
@@ -51,7 +51,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     protected boolean isAutoScrollEnable;
     protected boolean isAutoScrolling;
     protected int scrollSpeed = 450;
-    protected Class<? extends ViewPagerCompat.PageTransformer> transformerClass;
+    protected Class<? extends ViewPager.PageTransformer> transformerClass;
 
     /** top parent of indicators */
     protected RelativeLayout rl_bottom_bar_parent;
@@ -114,7 +114,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
 
         //create ViewPager
-        vp = isLoopEnable ? new LoopViewPager(context) : new ViewPagerCompat(context);
+        vp = isLoopEnable ? new LoopViewPager(context) : new ViewPager(context);
         itemWidth = dm.widthPixels;
         if (scale < 0) {//scale not set in xml
             if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
@@ -239,7 +239,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     }
 
     /** set page transformer */
-    public T setTransformerClass(Class<? extends ViewPagerCompat.PageTransformer> transformerClass) {
+    public T setTransformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
         this.transformerClass = transformerClass;
         return (T) this;
     }
@@ -316,7 +316,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
 
 
-        vp.setOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
+        vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 currentPositon = position % list.size();
@@ -397,8 +397,8 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         isAutoScrolling = false;
     }
 
-    //ViewPagerCompat
-    public ViewPagerCompat getViewPager() {
+    //ViewPager
+    public ViewPager getViewPager() {
         return vp;
     }
 
@@ -474,7 +474,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     /** set scroll speed */
     private void setScrollSpeed() {
         try {
-            Field mScroller = ViewPagerCompat.class.getDeclaredField("mScroller");
+            Field mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
             FixedSpeedScroller myScroller = new FixedSpeedScroller(context, interpolator, scrollSpeed);
@@ -514,9 +514,9 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     }
 
     //listener
-    private ViewPagerCompat.OnPageChangeListener onPageChangeListener;
+    private ViewPager.OnPageChangeListener onPageChangeListener;
 
-    public void setOnPageChangeListener(ViewPagerCompat.OnPageChangeListener listener) {
+    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         onPageChangeListener = listener;
     }
 

@@ -1,11 +1,11 @@
 package com.flyco.banner.transform;
 
 import android.view.View;
+import android.support.v4.view.ViewPager;
 
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 import com.nineoldandroids.view.ViewHelper;
 
-public class ZoomOutSlideTransformer implements ViewPagerCompat.PageTransformer {
+public class ZoomOutSlideTransformer implements ViewPager.PageTransformer {
 
     private static final float MIN_SCALE = 0.85f;
     private static final float MIN_ALPHA = 0.9f;

@@ -2,10 +2,10 @@ package com.flyco.bannersamples.dialog;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.flyco.banner.anim.select.ZoomInEnter;
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.banner.SimpleImageBanner;
 import com.flyco.bannersamples.utils.DataProvider;
@@ -15,7 +15,7 @@ import com.flyco.dialog.widget.base.BottomBaseDialog;
 
 public class BannerDialog extends BottomBaseDialog {
     private SimpleImageBanner sib;
-    private Class<? extends ViewPagerCompat.PageTransformer> transformerClass;
+    private Class<? extends ViewPager.PageTransformer> transformerClass;
 
     public BannerDialog(Context context) {
         super(context);
@@ -35,7 +35,7 @@ public class BannerDialog extends BottomBaseDialog {
         return false;
     }
 
-    public BannerDialog transformerClass(Class<? extends ViewPagerCompat.PageTransformer> transformerClass) {
+    public BannerDialog transformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
         this.transformerClass = transformerClass;
         return this;
     }

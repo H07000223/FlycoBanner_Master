@@ -1,12 +1,13 @@
 package com.flyco.bannersamples.utils;
 
+import android.support.v4.view.ViewPager;
+
 import com.flyco.banner.transform.DepthTransformer;
 import com.flyco.banner.transform.FadeSlideTransformer;
 import com.flyco.banner.transform.FlowTransformer;
 import com.flyco.banner.transform.RotateDownTransformer;
 import com.flyco.banner.transform.RotateUpTransformer;
 import com.flyco.banner.transform.ZoomOutSlideTransformer;
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.entity.BannerItem;
 
@@ -51,7 +52,7 @@ public class DataProvider {
         return list;
     }
 
-    public static Class<? extends ViewPagerCompat.PageTransformer> transformers[] = new Class[]{
+    public static Class<? extends ViewPager.PageTransformer> transformers[] = new Class[]{
             DepthTransformer.class,
             FadeSlideTransformer.class,
             FlowTransformer.class,
