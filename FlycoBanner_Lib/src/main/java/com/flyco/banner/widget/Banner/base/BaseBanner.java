@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends RelativeLayout {
+public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends RelativeLayout implements ViewPager.OnPageChangeListener {
     protected static final String TAG = BaseBanner.class.getSimpleName();
     protected ScheduledExecutorService stse;
     protected Context context;
@@ -238,7 +238,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         return (T) this;
     }
 
-    /** set page transformer */
+    /** set page transformer,only valid for API 3.0 and up since V1.1.0 */
     public T setTransformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
         this.transformerClass = transformerClass;
         return (T) this;
@@ -316,36 +316,41 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
 
 
-        vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                currentPositon = position % list.size();
-
-                setCurrentIndicator(currentPositon);
-                onTitleSlect(tv_title, currentPositon);
-                ll_bottom_bar.setVisibility(currentPositon == list.size() - 1 && !isBarShowWhenLast ? GONE : VISIBLE);
-
-                lastPositon = currentPositon;
-                if (onPageChangeListener != null) {
-                    onPageChangeListener.onPageSelected(position);
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (onPageChangeListener != null) {
-                    onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (onPageChangeListener != null) {
-                    onPageChangeListener.onPageScrollStateChanged(state);
-                }
-            }
-        });
+        if (internelPageListener != null) {
+            vp.removeOnPageChangeListener(internelPageListener);
+        }
+        vp.addOnPageChangeListener(internelPageListener);
     }
+
+    private ViewPager.OnPageChangeListener internelPageListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            currentPositon = position % list.size();
+
+            setCurrentIndicator(currentPositon);
+            onTitleSlect(tv_title, currentPositon);
+            ll_bottom_bar.setVisibility(currentPositon == list.size() - 1 && !isBarShowWhenLast ? GONE : VISIBLE);
+
+            lastPositon = currentPositon;
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageSelected(position);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageScrollStateChanged(state);
+            }
+        }
+    };
 
 
     public void startScroll() {
@@ -516,7 +521,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     //listener
     private ViewPager.OnPageChangeListener onPageChangeListener;
 
-    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+    public void addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         onPageChangeListener = listener;
     }
 
