@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends RelativeLayout implements ViewPager.OnPageChangeListener {
+public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends RelativeLayout {
     protected static final String TAG = BaseBanner.class.getSimpleName();
     protected ScheduledExecutorService stse;
     protected Context context;
