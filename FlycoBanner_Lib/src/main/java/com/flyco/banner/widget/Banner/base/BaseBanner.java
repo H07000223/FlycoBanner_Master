@@ -359,9 +359,13 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
 
         onTitleSlect(tv_title, currentPositon);
-        //create indicator and title
-        ll_indicator_container.removeAllViews();
-        ll_indicator_container.addView(onCreateIndicator());
+        //create indicator
+        View indicatorViews = onCreateIndicator();
+        if (indicatorViews != null) {
+            ll_indicator_container.removeAllViews();
+            ll_indicator_container.addView(indicatorViews);
+        }
+
         setViewPager();
         goOnScroll();
     }

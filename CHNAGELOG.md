@@ -12,3 +12,7 @@ Version 1.1.2 *(2015-09-22)*
 ----------------------------
 * use addOnPageChangeListener instead of setOnPageChangeListener everywhere in library.
 
+Version 1.1.4 *(2015-09-22)*
+----------------------------
+* fix bug:abstract method onCreateIndicator return null lead to crash.
+
