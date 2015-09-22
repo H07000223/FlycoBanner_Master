@@ -5,13 +5,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoopViewPager extends ViewPager {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
 
-    OnPageChangeListener mOuterPageChangeListener;
+    //    OnPageChangeListener mOuterPageChangeListener;
     private LoopPagerAdapterWrapper mAdapter;
     private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
+    private List<OnPageChangeListener> mOnPageChangeListeners;
 
     /**
      * helper function which may be used when implementing FragmentPagerAdapter
@@ -80,7 +84,24 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public void addOnPageChangeListener(OnPageChangeListener listener) {
-        mOuterPageChangeListener = listener;
+        if (mOnPageChangeListeners == null) {
+            mOnPageChangeListeners = new ArrayList<>();
+        }
+        mOnPageChangeListeners.add(listener);
+    }
+
+    @Override
+    public void removeOnPageChangeListener(OnPageChangeListener listener) {
+        if (mOnPageChangeListeners != null) {
+            mOnPageChangeListeners.remove(listener);
+        }
+    }
+
+    @Override
+    public void clearOnPageChangeListeners() {
+        if (mOnPageChangeListeners != null) {
+            mOnPageChangeListeners.clear();
+        }
     }
 
     public LoopViewPager(Context context) {
@@ -110,8 +131,17 @@ public class LoopViewPager extends ViewPager {
             int realPosition = mAdapter.toRealPosition(position);
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
-                if (mOuterPageChangeListener != null) {
-                    mOuterPageChangeListener.onPageSelected(realPosition);
+//                if (mOuterPageChangeListener != null) {
+//                    mOuterPageChangeListener.onPageSelected(realPosition);
+//                }
+
+                if (mOnPageChangeListeners != null) {
+                    for (int i = 0; i < mOnPageChangeListeners.size(); i++) {
+                        OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                        if (listener != null) {
+                            listener.onPageSelected(realPosition);
+                        }
+                    }
                 }
             }
         }
@@ -128,6 +158,24 @@ public class LoopViewPager extends ViewPager {
             }
 
             mPreviousOffset = positionOffset;
+
+            if (mOnPageChangeListeners != null) {
+                for (int i = 0; i < mOnPageChangeListeners.size(); i++) {
+                    OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                    if (listener != null) {
+                        if (realPosition != mAdapter.getRealCount() - 1) {
+                            listener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
+                        } else {
+                            if (positionOffset > .5) {
+                                listener.onPageScrolled(0, 0, 0);
+                            } else {
+                                listener.onPageScrolled(realPosition, 0, 0);
+                            }
+                        }
+                    }
+                }
+            }
+/*
             if (mOuterPageChangeListener != null) {
                 if (realPosition != mAdapter.getRealCount() - 1) {
                     mOuterPageChangeListener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
@@ -138,7 +186,7 @@ public class LoopViewPager extends ViewPager {
                         mOuterPageChangeListener.onPageScrolled(realPosition, 0, 0);
                     }
                 }
-            }
+            }*/
         }
 
         @Override
@@ -150,8 +198,17 @@ public class LoopViewPager extends ViewPager {
                     setCurrentItem(realPosition, false);
                 }
             }
-            if (mOuterPageChangeListener != null) {
-                mOuterPageChangeListener.onPageScrollStateChanged(state);
+//            if (mOuterPageChangeListener != null) {
+//                mOuterPageChangeListener.onPageScrollStateChanged(state);
+//            }
+
+            if (mOnPageChangeListeners != null) {
+                for (int i = 0; i < mOnPageChangeListeners.size(); i++) {
+                    OnPageChangeListener listener = mOnPageChangeListeners.get(i);
+                    if (listener != null) {
+                        listener.onPageScrollStateChanged(state);
+                    }
+                }
             }
         }
     };

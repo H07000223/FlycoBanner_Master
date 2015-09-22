@@ -16,3 +16,7 @@ Version 1.1.4 *(2015-09-22)*
 ----------------------------
 * fix bug:abstract method onCreateIndicator return null lead to crash.
 
+Version 1.1.6 *(2015-09-22)*
+----------------------------
+* use list to manage LoopViewPager OnPageChangeListener.
+
