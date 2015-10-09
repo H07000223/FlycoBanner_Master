@@ -25,11 +25,11 @@ dependencies {
     //FlycoDialog
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.flyco.animation:FlycoAnimation_Lib:1.0.0@aar'
-    compile 'com.flyco.dialog:FlycoDialog_Lib:1.0.0@aar'
+    compile 'com.flyco.dialog:FlycoDialog_Lib:1.1.0@aar'
 
     //FlycoBanner
 //    compile 'com.android.support:support-v4:22.2.1'
-//    compile 'com.flyco.banner:FlycoBanner_Lib:1.1.0@aar'
+//    compile 'com.flyco.banner:FlycoBanner_Lib:1.1.8@aar'
 //    compile 'com.nineoldandroids:library:2.4.0'
 
     compile project(':FlycoBanner_Lib')

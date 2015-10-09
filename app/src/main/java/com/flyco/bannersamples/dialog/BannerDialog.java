@@ -30,9 +30,8 @@ public class BannerDialog extends BottomBaseDialog {
     }
 
     @Override
-    public boolean setUiBeforShow() {
+    public void setUiBeforShow() {
         sib();
-        return false;
     }
 
     public BannerDialog transformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {

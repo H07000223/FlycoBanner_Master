@@ -359,6 +359,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
 
         onTitleSlect(tv_title, currentPositon);
+        setViewPager();
         //create indicator
         View indicatorViews = onCreateIndicator();
         if (indicatorViews != null) {
@@ -366,7 +367,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
             ll_indicator_container.addView(indicatorViews);
         }
 
-        setViewPager();
         goOnScroll();
     }
 

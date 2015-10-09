@@ -21,8 +21,7 @@ import com.flyco.bannersamples.dialog.BannerDialog;
 import com.flyco.bannersamples.utils.DataProvider;
 import com.flyco.bannersamples.utils.T;
 import com.flyco.bannersamples.utils.ViewFindUtils;
-import com.flyco.dialog.listener.OnBtnLeftClickL;
-import com.flyco.dialog.listener.OnBtnRightClickL;
+import com.flyco.dialog.listener.OnBtnClickL;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.MaterialDialog;
 import com.flyco.dialog.widget.NormalListDialog;
@@ -297,21 +296,18 @@ public class BannerHomeActivity extends Activity {
                 .dismissAnim(new SlideBottomExit())//
                 .show();
 
-        dialog.setOnBtnLeftClickL(new OnBtnLeftClickL() {
+        dialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
-            public void onBtnLeftClick() {
+            public void onBtnClick() {
                 dialog.superDismiss();
                 finish();
                 System.exit(0);
             }
-        });
-
-        dialog.setOnBtnRightClickL(new OnBtnRightClickL() {
+        }, new OnBtnClickL() {
             @Override
-            public void onBtnRightClick() {
+            public void onBtnClick() {
                 dialog.dismiss();
             }
         });
-
     }
 }
