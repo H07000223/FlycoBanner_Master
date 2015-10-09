@@ -29,7 +29,7 @@ So I decide to code a libray with features below:
 dependencies{
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.flyco.banner:FlycoBanner_Lib:1.1.6@aar'
+    compile 'com.flyco.banner:FlycoBanner_Lib:1.1.8@aar'
 }
 ```
 
