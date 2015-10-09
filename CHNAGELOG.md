@@ -20,3 +20,7 @@ Version 1.1.6 *(2015-09-22)*
 ----------------------------
 * use list to manage LoopViewPager OnPageChangeListener.
 
+Version 1.1.8 *(2015-10-09)*
+----------------------------
+* fix a small and update dependence FlycoDialog to the latest v1.1.0
+
