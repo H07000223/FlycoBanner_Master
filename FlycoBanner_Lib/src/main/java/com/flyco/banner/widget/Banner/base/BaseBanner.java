@@ -73,7 +73,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
             scrollToNextItem(currentPositon);
         }
     };
-    private TypedArray ta;
 
     public BaseBanner(Context context) {
         this(context, null, 0);
