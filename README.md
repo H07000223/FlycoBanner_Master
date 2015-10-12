@@ -1,4 +1,4 @@
-#FlycoBanner-Matser
+#FlycoBanner-Master
 
 A powerful android view looper library animing to simplify this high frequency function in daily development. Support for Android 2.2 and up. 
 
