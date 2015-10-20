@@ -24,3 +24,7 @@ Version 1.1.8 *(2015-10-09)*
 ----------------------------
 * fix a small and update dependence FlycoDialog to the latest v1.1.0
 
+Version 1.2.0 *(2015-10-20)*
+----------------------------
+* add attribute is_smart,default false;
+

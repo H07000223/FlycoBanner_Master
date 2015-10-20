@@ -49,6 +49,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     protected long delay;
     protected long period;
     protected boolean isAutoScrollEnable;
+    protected boolean isSmart;
     protected boolean isAutoScrolling;
     protected int scrollSpeed = 450;
     protected Class<? extends ViewPager.PageTransformer> transformerClass;
@@ -95,6 +96,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         delay = ta.getInt(R.styleable.BaseBanner_bb_delay, 5);
         period = ta.getInt(R.styleable.BaseBanner_bb_period, 5);
         isAutoScrollEnable = ta.getBoolean(R.styleable.BaseBanner_bb_isAutoScrollEnable, true);
+        isSmart = ta.getBoolean(R.styleable.BaseBanner_bb_isSmart, false);
 
         int barColor = ta.getColor(R.styleable.BaseBanner_bb_barColor, Color.TRANSPARENT);
         isBarShowWhenLast = ta.getBoolean(R.styleable.BaseBanner_bb_isBarShowWhenLast, true);
@@ -434,11 +436,12 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        if (visibility != VISIBLE) {
-//            Log.d(TAG, this.getClass().getSimpleName() + "--->onWindowVisibilityChanged");
-            pauseScroll();
-        } else {
-            goOnScroll();
+        if (isSmart) {
+            if (visibility != VISIBLE) {
+                pauseScroll();
+            } else {
+                goOnScroll();
+            }
         }
     }
 
