@@ -1,4 +1,4 @@
-#FlycoBanner-Matser
+#FlycoBanner-Master
 
 A powerful android view looper library animing to simplify this high frequency function in daily development. Support for Android 2.2 and up. 
 
@@ -29,7 +29,7 @@ So I decide to code a libray with features below:
 dependencies{
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.flyco.banner:FlycoBanner_Lib:1.0.0@aar'
+    compile 'com.flyco.banner:FlycoBanner_Lib:1.2.0@aar'
 }
 ```
 
@@ -157,7 +157,7 @@ sib
 
 |name|format|description|
 |:---:|:---:|:---:|
-| bb_scale | float |scale of Banner height and width,height/screenWidth,[0-1].scale is 0.5 default for LoopViewPager 
+| bb_scale | float |scale of Banner height and width,height/screenWidth
 | bb_isLoopEnable | boolean |is LoopViewPager or not,default true
 | bb_delay | integer |delay before start scroll,unit second,default 5 seconds
 | bb_period | integer |scroll period,unit second,default 5 seconds

@@ -13,6 +13,8 @@
         <attr name="bb_period" format="integer"/>
         <!-- is auto scroll enable,default true-->
         <attr name="bb_isAutoScrollEnable" format="boolean"/>
+        <!-- is smart pause and start -->
+        <attr name="bb_isSmart" format="boolean"/>
 
         <!--for LoopViewPager end-->
 

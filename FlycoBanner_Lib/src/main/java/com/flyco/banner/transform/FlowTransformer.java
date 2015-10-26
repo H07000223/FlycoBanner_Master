@@ -1,11 +1,11 @@
 package com.flyco.banner.transform;
 
 import android.view.View;
+import android.support.v4.view.ViewPager;
 
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 import com.nineoldandroids.view.ViewHelper;
 
-public class FlowTransformer implements ViewPagerCompat.PageTransformer {
+public class FlowTransformer implements ViewPager.PageTransformer {
 
     @Override
     public void transformPage(View page, float position) {

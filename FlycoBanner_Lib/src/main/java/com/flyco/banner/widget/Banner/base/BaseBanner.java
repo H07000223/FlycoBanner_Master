@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 import com.flyco.banner.R;
 import com.flyco.banner.widget.LoopViewPager.FixedSpeedScroller;
 import com.flyco.banner.widget.LoopViewPager.LoopViewPager;
-import com.flyco.banner.widget.LoopViewPager.ViewPagerCompat;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     protected Context context;
     protected DisplayMetrics dm;
 
-    /** ViewPagerCompat */
-    protected ViewPagerCompat vp;
+    /** ViewPager */
+    protected ViewPager vp;
     protected LayoutParams lp_vp;
     protected List<E> list = new ArrayList<>();
     protected int currentPositon;
@@ -49,9 +49,10 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     protected long delay;
     protected long period;
     protected boolean isAutoScrollEnable;
+    protected boolean isSmart;
     protected boolean isAutoScrolling;
     protected int scrollSpeed = 450;
-    protected Class<? extends ViewPagerCompat.PageTransformer> transformerClass;
+    protected Class<? extends ViewPager.PageTransformer> transformerClass;
 
     /** top parent of indicators */
     protected RelativeLayout rl_bottom_bar_parent;
@@ -73,7 +74,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
             scrollToNextItem(currentPositon);
         }
     };
-    private TypedArray ta;
 
     public BaseBanner(Context context) {
         this(context, null, 0);
@@ -96,6 +96,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         delay = ta.getInt(R.styleable.BaseBanner_bb_delay, 5);
         period = ta.getInt(R.styleable.BaseBanner_bb_period, 5);
         isAutoScrollEnable = ta.getBoolean(R.styleable.BaseBanner_bb_isAutoScrollEnable, true);
+        isSmart = ta.getBoolean(R.styleable.BaseBanner_bb_isSmart, false);
 
         int barColor = ta.getColor(R.styleable.BaseBanner_bb_barColor, Color.TRANSPARENT);
         isBarShowWhenLast = ta.getBoolean(R.styleable.BaseBanner_bb_isBarShowWhenLast, true);
@@ -114,15 +115,15 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
 
         //create ViewPager
-        vp = isLoopEnable ? new LoopViewPager(context) : new ViewPagerCompat(context);
+        vp = isLoopEnable ? new LoopViewPager(context) : new ViewPager(context);
         itemWidth = dm.widthPixels;
         if (scale < 0) {//scale not set in xml
             if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
                 Log.d(TAG, "MATCH_PARENT--->" + height);
-                itemHeight = isLoopEnable ? (int) (itemWidth * 0.5) : LayoutParams.MATCH_PARENT;
+                itemHeight = LayoutParams.MATCH_PARENT;
             } else if (height.equals(ViewGroup.LayoutParams.WRAP_CONTENT + "")) {
                 Log.d(TAG, "WRAP_CONTENT--->" + height);
-                itemHeight = isLoopEnable ? (int) (itemWidth * 0.5) : LayoutParams.MATCH_PARENT;
+                itemHeight = LayoutParams.WRAP_CONTENT;
             } else {
                 int[] systemAttrs = {android.R.attr.layout_height};
                 TypedArray a = context.obtainStyledAttributes(attrs, systemAttrs);
@@ -238,8 +239,8 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         return (T) this;
     }
 
-    /** set page transformer */
-    public T setTransformerClass(Class<? extends ViewPagerCompat.PageTransformer> transformerClass) {
+    /** set page transformer,only valid for API 3.0 and up since V1.1.0 */
+    public T setTransformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
         this.transformerClass = transformerClass;
         return (T) this;
     }
@@ -316,36 +317,41 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
 
 
-        vp.setOnPageChangeListener(new ViewPagerCompat.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                currentPositon = position % list.size();
-
-                setCurrentIndicator(currentPositon);
-                onTitleSlect(tv_title, currentPositon);
-                ll_bottom_bar.setVisibility(currentPositon == list.size() - 1 && !isBarShowWhenLast ? GONE : VISIBLE);
-
-                lastPositon = currentPositon;
-                if (onPageChangeListener != null) {
-                    onPageChangeListener.onPageSelected(position);
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (onPageChangeListener != null) {
-                    onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (onPageChangeListener != null) {
-                    onPageChangeListener.onPageScrollStateChanged(state);
-                }
-            }
-        });
+        if (internelPageListener != null) {
+            vp.removeOnPageChangeListener(internelPageListener);
+        }
+        vp.addOnPageChangeListener(internelPageListener);
     }
+
+    private ViewPager.OnPageChangeListener internelPageListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            currentPositon = position % list.size();
+
+            setCurrentIndicator(currentPositon);
+            onTitleSlect(tv_title, currentPositon);
+            ll_bottom_bar.setVisibility(currentPositon == list.size() - 1 && !isBarShowWhenLast ? GONE : VISIBLE);
+
+            lastPositon = currentPositon;
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageSelected(position);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onPageScrollStateChanged(state);
+            }
+        }
+    };
 
 
     public void startScroll() {
@@ -354,10 +360,14 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
 
         onTitleSlect(tv_title, currentPositon);
-        //create indicator and title
-        ll_indicator_container.removeAllViews();
-        ll_indicator_container.addView(onCreateIndicator());
         setViewPager();
+        //create indicator
+        View indicatorViews = onCreateIndicator();
+        if (indicatorViews != null) {
+            ll_indicator_container.removeAllViews();
+            ll_indicator_container.addView(indicatorViews);
+        }
+
         goOnScroll();
     }
 
@@ -397,8 +407,8 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         isAutoScrolling = false;
     }
 
-    //ViewPagerCompat
-    public ViewPagerCompat getViewPager() {
+    //ViewPager
+    public ViewPager getViewPager() {
         return vp;
     }
 
@@ -426,11 +436,12 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     @Override
     protected void onWindowVisibilityChanged(int visibility) {
         super.onWindowVisibilityChanged(visibility);
-        if (visibility != VISIBLE) {
-//            Log.d(TAG, this.getClass().getSimpleName() + "--->onWindowVisibilityChanged");
-            pauseScroll();
-        } else {
-            goOnScroll();
+        if (isSmart) {
+            if (visibility != VISIBLE) {
+                pauseScroll();
+            } else {
+                goOnScroll();
+            }
         }
     }
 
@@ -474,7 +485,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     /** set scroll speed */
     private void setScrollSpeed() {
         try {
-            Field mScroller = ViewPagerCompat.class.getDeclaredField("mScroller");
+            Field mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
             FixedSpeedScroller myScroller = new FixedSpeedScroller(context, interpolator, scrollSpeed);
@@ -514,9 +525,9 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     }
 
     //listener
-    private ViewPagerCompat.OnPageChangeListener onPageChangeListener;
+    private ViewPager.OnPageChangeListener onPageChangeListener;
 
-    public void setOnPageChangeListener(ViewPagerCompat.OnPageChangeListener listener) {
+    public void addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         onPageChangeListener = listener;
     }
 
