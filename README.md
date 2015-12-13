@@ -35,10 +35,10 @@ dependencies{
 
 ##Usage
 
-###Extends BaseIndicaorBanner and Set Data Type
+###Extends BaseIndicatorBanner and Set Data Type
 
 ```Java
-public class SimpleImageBanner extends BaseIndicaorBanner<BannerItem, SimpleImageBanner> {
+public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleImageBanner> {
     private ColorDrawable colorDrawable;
 
     public SimpleImageBanner(Context context) {
