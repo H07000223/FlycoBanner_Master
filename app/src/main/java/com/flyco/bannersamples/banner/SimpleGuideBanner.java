@@ -7,11 +7,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.flyco.banner.widget.Banner.BaseIndicaorBanner;
+import com.flyco.banner.widget.Banner.BaseIndicatorBanner;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.utils.ViewFindUtils;
 
-public class SimpleGuideBanner extends BaseIndicaorBanner<Integer, SimpleGuideBanner> {
+public class SimpleGuideBanner extends BaseIndicatorBanner<Integer, SimpleGuideBanner> {
     public SimpleGuideBanner(Context context) {
         this(context, null, 0);
     }

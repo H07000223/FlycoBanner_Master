@@ -19,7 +19,7 @@ import com.flyco.banner.widget.Banner.base.BaseBanner;
 
 import java.util.ArrayList;
 
-public abstract class BaseIndicaorBanner<E, T extends BaseIndicaorBanner<E, T>> extends BaseBanner<E, T> {
+public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>> extends BaseBanner<E, T> {
     private ArrayList<ImageView> indicatorViews = new ArrayList<>();
 
     public static final int STYLE_DRAWABLE_RESOURCE = 0;
@@ -41,28 +41,28 @@ public abstract class BaseIndicaorBanner<E, T extends BaseIndicaorBanner<E, T>> 
 
     private LinearLayout ll_indicators;
 
-    public BaseIndicaorBanner(Context context) {
+    public BaseIndicatorBanner(Context context) {
         this(context, null, 0);
     }
 
-    public BaseIndicaorBanner(Context context, AttributeSet attrs) {
+    public BaseIndicatorBanner(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BaseIndicaorBanner(Context context, AttributeSet attrs, int defStyle) {
+    public BaseIndicatorBanner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseIndicaorBanner);
-        indicatorStyle = ta.getInt(R.styleable.BaseIndicaorBanner_bib_indicatorStyle, STYLE_CORNER_RECTANGLE);
-        indicatorWidth = ta.getDimensionPixelSize(R.styleable.BaseIndicaorBanner_bib_indicatorWidth, dp2px(6));
-        indicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicaorBanner_bib_indicatorHeight, dp2px(6));
-        indicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicaorBanner_bib_indicatorGap, dp2px(6));
-        indicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicaorBanner_bib_indicatorCornerRadius, dp2px(3));
-        selectColor = ta.getColor(R.styleable.BaseIndicaorBanner_bib_indicatorSelectColor, Color.parseColor("#ffffff"));
-        unselectColor = ta.getColor(R.styleable.BaseIndicaorBanner_bib_indicatorUnselectColor, Color.parseColor("#88ffffff"));
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseIndicatorBanner);
+        indicatorStyle = ta.getInt(R.styleable.BaseIndicatorBanner_bib_indicatorStyle, STYLE_CORNER_RECTANGLE);
+        indicatorWidth = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorWidth, dp2px(6));
+        indicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorHeight, dp2px(6));
+        indicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorGap, dp2px(6));
+        indicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorCornerRadius, dp2px(3));
+        selectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorSelectColor, Color.parseColor("#ffffff"));
+        unselectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectColor, Color.parseColor("#88ffffff"));
 
-        int selectRes = ta.getResourceId(R.styleable.BaseIndicaorBanner_bib_indicatorSelectRes, 0);
-        int unselectRes = ta.getResourceId(R.styleable.BaseIndicaorBanner_bib_indicatorUnselectRes, 0);
+        int selectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bib_indicatorSelectRes, 0);
+        int unselectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectRes, 0);
         ta.recycle();
 
         //create indicator container

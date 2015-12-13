@@ -45,7 +45,7 @@
 
     </declare-styleable>
 
-    <declare-styleable name="BaseIndicaorBanner">
+    <declare-styleable name="BaseIndicatorBanner">
         <!-- indicator style,STYLE_DRAWABLE_RESOURCE or STYLE_CORNER_RECTANGLE -->
         <attr name="bib_indicatorStyle">
             <enum name="DRAWABLE_RESOURCE" value="0"/>

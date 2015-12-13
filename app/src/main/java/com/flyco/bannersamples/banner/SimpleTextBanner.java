@@ -5,11 +5,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.flyco.banner.widget.Banner.BaseIndicaorBanner;
+import com.flyco.banner.widget.Banner.BaseIndicatorBanner;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.utils.ViewFindUtils;
 
-public class SimpleTextBanner extends BaseIndicaorBanner<String, SimpleTextBanner> {
+public class SimpleTextBanner extends BaseIndicatorBanner<String, SimpleTextBanner> {
     public SimpleTextBanner(Context context) {
         this(context, null, 0);
     }
