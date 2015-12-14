@@ -11,12 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.flyco.banner.widget.Banner.BaseIndicaorBanner;
+import com.flyco.banner.widget.Banner.BaseIndicatorBanner;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.entity.BannerItem;
 import com.flyco.bannersamples.utils.ViewFindUtils;
 
-public class SimpleImageBanner extends BaseIndicaorBanner<BannerItem, SimpleImageBanner> {
+public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleImageBanner> {
     private ColorDrawable colorDrawable;
 
     public SimpleImageBanner(Context context) {

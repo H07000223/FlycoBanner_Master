@@ -35,10 +35,10 @@ dependencies{
 
 ##Usage
 
-###Extends BaseIndicaorBanner and Set Data Type
+###Extends BaseIndicatorBanner and Set Data Type
 
 ```Java
-public class SimpleImageBanner extends BaseIndicaorBanner<BannerItem, SimpleImageBanner> {
+public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleImageBanner> {
     private ColorDrawable colorDrawable;
 
     public SimpleImageBanner(Context context) {
@@ -174,7 +174,7 @@ sib
 | bb_isIndicatorShow | boolean |set indicator show or not,default true 
 | bb_indicatorGravity |enum| Gravity.CENTER or RIGHT or LEFT.if gravity equals CENTER,title will not be supported,default CENTER
 
-####BaseIndicaorBanner
+####BaseIndicatorBanner
 |name|format|description|
 |:---:|:---:|:---:|
 | bib_indicatorStyle |enum|indicator style, `STYLE_DRAWABLE_RESOURCE` or  `STYLE_CORNER_RECTANGLE`
