@@ -13,7 +13,7 @@ An android view looper library. Support for Android 2.2 and up.
 dependencies{
     compile 'com.android.support:support-v4:22.2.1'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.flyco.banner:FlycoBanner_Lib:2.0.0@aar'
+    compile 'com.flyco.banner:FlycoBanner_Lib:2.0.2@aar'
 }
 ```
 
