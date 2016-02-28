@@ -145,7 +145,7 @@ sib
 | bb_isLoopEnable | boolean |是否支持循环,默认true
 | bb_delay | integer |滚动延时,默认5秒
 | bb_period | integer |滚动间隔,默认5秒
-| bb_isAutoScrollEnable | 是否支持自动滚动,默认true
+| bb_isAutoScrollEnable |boolean|是否支持自动滚动,默认true
 | bb_barColor | color |设置底部背景条颜色,默认透明
 | bb_isBarShowWhenLast | boolean |设置当滚动到最后一个item时是否显示底部背景条
 | bb_barPaddingLeft | dimension |设置底部背景条padding,单位dp
@@ -157,7 +157,7 @@ sib
 | bb_isTitleShow | boolean |设置是否显示标题,默认true
 | bb_isIndicatorShow | boolean |设置是否显示显示器,默认true
 | bb_indicatorGravity |enum| 设置显示器位置.默认Gravity.CENTER.Gravity.CENTER时文字不显示
-| bb_indicatorStyle |设置显示器样式
+| bb_indicatorStyle |enum| 设置显示器样式
 | bb_indicatorWidth | dimension |设置显示器宽度,单位dp,默认6dp
 | bb_indicatorHeight | dimension |设置显示器高度,单位dp,默认6dp
 | bb_indicatorGap | dimension |设置显示器间距,单位dp,默认6dp
