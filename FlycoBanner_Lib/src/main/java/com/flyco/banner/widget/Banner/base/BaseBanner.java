@@ -261,13 +261,13 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         return (T) this;
     }
 
-    /** 设置标题颜色,默认"#ffffff" */
+    /** 设置标题文字颜色,默认"#ffffff" */
     public T setTextColor(int textColor) {
         mTvTitle.setTextColor(textColor);
         return (T) this;
     }
 
-    /** set title text size,unit sp,default 14sp */
+    /** 设置标题文字大小,单位sp,默认14sp */
     public T setTextSize(float textSize) {
         mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         return (T) this;
