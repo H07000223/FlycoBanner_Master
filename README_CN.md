@@ -137,7 +137,6 @@ sib
 
 ###Attributes
 
-####BaseBanner
 
 |name|format|description|
 |:---:|:---:|:---:|
