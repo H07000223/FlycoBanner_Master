@@ -23,7 +23,7 @@ public class BannerDialog extends BottomBaseDialog {
 
     @Override
     public View onCreateView() {
-        View inflate = View.inflate(context, R.layout.dialog_banner, null);
+        View inflate = View.inflate(mContext, R.layout.dialog_banner, null);
         sib = ViewFindUtils.find(inflate, R.id.sib);
 
         return inflate;
@@ -51,7 +51,7 @@ public class BannerDialog extends BottomBaseDialog {
         sib.setOnItemClickL(new SimpleImageBanner.OnItemClickL() {
             @Override
             public void onItemClick(int position) {
-                T.showShort(context, "position--->" + position);
+                T.showShort(mContext, "position--->" + position);
             }
         });
     }

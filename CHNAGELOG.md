@@ -28,3 +28,7 @@ Version 1.2.0 *(2015-10-20)*
 ----------------------------
 * add attribute is_smart,default false;
 
+Version 2.0.0 *(2016-2-28)*
+---------------------------
+* code refactoring
+

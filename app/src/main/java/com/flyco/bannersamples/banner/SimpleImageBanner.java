@@ -34,17 +34,17 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
 
     @Override
     public void onTitleSlect(TextView tv, int position) {
-        final BannerItem item = list.get(position);
+        final BannerItem item = mDatas.get(position);
         tv.setText(item.title);
     }
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = View.inflate(context, R.layout.adapter_simple_image, null);
+        View inflate = View.inflate(mContext, R.layout.adapter_simple_image, null);
         ImageView iv = ViewFindUtils.find(inflate, R.id.iv);
 
-        final BannerItem item = list.get(position);
-        int itemWidth = dm.widthPixels;
+        final BannerItem item = mDatas.get(position);
+        int itemWidth = mDisplayMetrics.widthPixels;
         int itemHeight = (int) (itemWidth * 360 * 1.0f / 640);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
@@ -52,7 +52,7 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
         String imgUrl = item.imgUrl;
 
         if (!TextUtils.isEmpty(imgUrl)) {
-            Glide.with(context)
+            Glide.with(mContext)
                     .load(imgUrl)
                     .override(itemWidth, itemHeight)
                     .centerCrop()

@@ -9,12 +9,10 @@
         <attr name="bb_isLoopEnable" format="boolean"/>
         <!-- delay before start scroll,unit second,default 5 seconds -->
         <attr name="bb_delay" format="integer"/>
-        <!-- scroll period,unit second,default 5 seconds -->
+        <!-- scroll mPeriod,unit second,default 5 seconds -->
         <attr name="bb_period" format="integer"/>
         <!-- is auto scroll enable,default true-->
         <attr name="bb_isAutoScrollEnable" format="boolean"/>
-        <!-- is smart pause and start -->
-        <attr name="bb_isSmart" format="boolean"/>
 
         <!--for LoopViewPager end-->
 

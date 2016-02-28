@@ -5,7 +5,7 @@ import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 public class FixedSpeedScroller extends Scroller {
-    private int scrollSpeed = 450;
+    private int mScrollSpeed = 450;
 
     public FixedSpeedScroller(Context context) {
         super(context);
@@ -13,11 +13,11 @@ public class FixedSpeedScroller extends Scroller {
 
     public FixedSpeedScroller(Context context, Interpolator interpolator, int scrollSpeed) {
         super(context, interpolator);
-        this.scrollSpeed = scrollSpeed;
+        this.mScrollSpeed = scrollSpeed;
     }
 
     @Override
     public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-        super.startScroll(startX, startY, dx, dy, this.scrollSpeed);
+        super.startScroll(startX, startY, dx, dy, this.mScrollSpeed);
     }
 }

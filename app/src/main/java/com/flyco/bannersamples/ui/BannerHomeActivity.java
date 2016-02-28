@@ -289,9 +289,9 @@ public class BannerHomeActivity extends Activity {
     public void onBackPressed() {
         final MaterialDialog dialog = new MaterialDialog(context);
         dialog.isTitleShow(false)//
-                .content("Are you sure to exit app?")//
+                .content("是否确定退出当前App?")//
                 .contentTextSize(18)
-                .btnText("Exit", "Cancel")//
+                .btnText("取消", "退出")//
                 .showAnim(new BounceTopEnter())//
                 .dismissAnim(new SlideBottomExit())//
                 .show();
@@ -299,14 +299,14 @@ public class BannerHomeActivity extends Activity {
         dialog.setOnBtnClickL(new OnBtnClickL() {
             @Override
             public void onBtnClick() {
-                dialog.superDismiss();
-                finish();
-                System.exit(0);
+                dialog.dismiss();
             }
         }, new OnBtnClickL() {
             @Override
             public void onBtnClick() {
-                dialog.dismiss();
+                dialog.superDismiss();
+                finish();
+                System.exit(0);
             }
         });
     }

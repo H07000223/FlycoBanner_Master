@@ -28,9 +28,9 @@ public class SimpleTextBanner extends BaseIndicatorBanner<String, SimpleTextBann
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = View.inflate(context, R.layout.adapter_simple_text, null);
+        View inflate = View.inflate(mContext, R.layout.adapter_simple_text, null);
         TextView tv = ViewFindUtils.find(inflate, R.id.tv);
-        tv.setText(list.get(position));
+        tv.setText(mDatas.get(position));
 
         return inflate;
     }

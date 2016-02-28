@@ -8,11 +8,11 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.view.ViewHelper;
 
 public abstract class BaseAnimator {
-    protected long duration = 500;
-    protected AnimatorSet animatorSet = new AnimatorSet();
-    private Interpolator interpolator;
-    private long delay;
-    private AnimatorListener listener;
+    protected long mDuration = 500;
+    protected AnimatorSet mAnimatorSet = new AnimatorSet();
+    private Interpolator mInterpolator;
+    private long mDelay;
+    private AnimatorListener mListener;
 
     public abstract void setAnimation(View view);
 
@@ -20,40 +20,40 @@ public abstract class BaseAnimator {
         reset(view);
         setAnimation(view);
 
-        animatorSet.setDuration(duration);
-        if (interpolator != null) {
-            animatorSet.setInterpolator(interpolator);
+        mAnimatorSet.setDuration(mDuration);
+        if (mInterpolator != null) {
+            mAnimatorSet.setInterpolator(mInterpolator);
         }
 
-        if (delay > 0) {
-            animatorSet.setStartDelay(delay);
+        if (mDelay > 0) {
+            mAnimatorSet.setStartDelay(mDelay);
         }
 
-        if (listener != null) {
-            animatorSet.addListener(new Animator.AnimatorListener() {
+        if (mListener != null) {
+            mAnimatorSet.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
-                    listener.onAnimationStart(animator);
+                    mListener.onAnimationStart(animator);
                 }
 
                 @Override
                 public void onAnimationRepeat(Animator animator) {
-                    listener.onAnimationRepeat(animator);
+                    mListener.onAnimationRepeat(animator);
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animator) {
-                    listener.onAnimationEnd(animator);
+                    mListener.onAnimationEnd(animator);
                 }
 
                 @Override
                 public void onAnimationCancel(Animator animator) {
-                    listener.onAnimationCancel(animator);
+                    mListener.onAnimationCancel(animator);
                 }
             });
         }
 
-        animatorSet.start();
+        mAnimatorSet.start();
     }
 
     public static void reset(View view) {
@@ -68,22 +68,22 @@ public abstract class BaseAnimator {
     }
 
     public BaseAnimator duration(long duration) {
-        this.duration = duration;
+        this.mDuration = duration;
         return this;
     }
 
     public BaseAnimator delay(long delay) {
-        this.delay = delay;
+        this.mDelay = delay;
         return this;
     }
 
     public BaseAnimator interpolator(Interpolator interpolator) {
-        this.interpolator = interpolator;
+        this.mInterpolator = interpolator;
         return this;
     }
 
     public BaseAnimator listener(AnimatorListener listener) {
-        this.listener = listener;
+        this.mListener = listener;
         return this;
     }
 

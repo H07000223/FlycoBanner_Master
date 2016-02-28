@@ -20,26 +20,25 @@ import com.flyco.banner.widget.Banner.base.BaseBanner;
 import java.util.ArrayList;
 
 public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>> extends BaseBanner<E, T> {
-    private ArrayList<ImageView> indicatorViews = new ArrayList<>();
-
     public static final int STYLE_DRAWABLE_RESOURCE = 0;
     public static final int STYLE_CORNER_RECTANGLE = 1;
-    private int indicatorStyle;
 
-    private int indicatorWidth;
-    private int indicatorHeight;
-    private int indicatorGap;
-    private int indicatorCornerRadius;
+    private ArrayList<ImageView> mIndicatorViews = new ArrayList<>();
+    private int mIndicatorStyle;
+    private int mIndicatorWidth;
+    private int mIndicatorHeight;
+    private int mIndicatorGap;
+    private int mIndicatorCornerRadius;
 
-    private Drawable selectDrawable;
-    private Drawable unSelectDrawable;
-    private int selectColor;
-    private int unselectColor;
+    private Drawable mSelectDrawable;
+    private Drawable mUnSelectDrawable;
+    private int mSelectColor;
+    private int mUnselectColor;
 
-    private Class<? extends BaseAnimator> selectAnimClass;
-    private Class<? extends BaseAnimator> unselectAnimClass;
+    private Class<? extends BaseAnimator> mSelectAnimClass;
+    private Class<? extends BaseAnimator> mUnselectAnimClass;
 
-    private LinearLayout ll_indicators;
+    private LinearLayout mLlIndicators;
 
     public BaseIndicatorBanner(Context context) {
         this(context, null, 0);
@@ -53,68 +52,66 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         super(context, attrs, defStyle);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseIndicatorBanner);
-        indicatorStyle = ta.getInt(R.styleable.BaseIndicatorBanner_bib_indicatorStyle, STYLE_CORNER_RECTANGLE);
-        indicatorWidth = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorWidth, dp2px(6));
-        indicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorHeight, dp2px(6));
-        indicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorGap, dp2px(6));
-        indicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorCornerRadius, dp2px(3));
-        selectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorSelectColor, Color.parseColor("#ffffff"));
-        unselectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectColor, Color.parseColor("#88ffffff"));
+        mIndicatorStyle = ta.getInt(R.styleable.BaseIndicatorBanner_bib_indicatorStyle, STYLE_CORNER_RECTANGLE);
+        mIndicatorWidth = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorWidth, dp2px(6));
+        mIndicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorHeight, dp2px(6));
+        mIndicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorGap, dp2px(6));
+        mIndicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorCornerRadius, dp2px(3));
+        mSelectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorSelectColor, Color.parseColor("#ffffff"));
+        mUnselectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectColor, Color.parseColor("#88ffffff"));
 
         int selectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bib_indicatorSelectRes, 0);
         int unselectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectRes, 0);
         ta.recycle();
 
         //create indicator container
-        ll_indicators = new LinearLayout(context);
-        ll_indicators.setGravity(Gravity.CENTER);
+        mLlIndicators = new LinearLayout(context);
+        mLlIndicators.setGravity(Gravity.CENTER);
 
         setIndicatorSelectorRes(unselectRes, selectRes);
     }
 
     @Override
     public View onCreateIndicator() {
-        if (indicatorStyle == STYLE_CORNER_RECTANGLE) {//rectangle
-            this.unSelectDrawable = getDrawable(unselectColor, indicatorCornerRadius);
-            this.selectDrawable = getDrawable(selectColor, indicatorCornerRadius);
+        if (mIndicatorStyle == STYLE_CORNER_RECTANGLE) {//rectangle
+            this.mUnSelectDrawable = getDrawable(mUnselectColor, mIndicatorCornerRadius);
+            this.mSelectDrawable = getDrawable(mSelectColor, mIndicatorCornerRadius);
         }
 
-        int size = list.size();
-        indicatorViews.clear();
+        int size = mDatas.size();
+        mIndicatorViews.clear();
 
-        ll_indicators.removeAllViews();
+        mLlIndicators.removeAllViews();
         for (int i = 0; i < size; i++) {
-            ImageView iv = new ImageView(context);
-            iv.setImageDrawable(i == currentPositon ? selectDrawable : unSelectDrawable);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(indicatorWidth,
-                    indicatorHeight);
-            lp.leftMargin = i == 0 ? 0 : indicatorGap;
-            ll_indicators.addView(iv, lp);
-            indicatorViews.add(iv);
+            ImageView iv = new ImageView(mContext);
+            iv.setImageDrawable(i == mCurrentPositon ? mSelectDrawable : mUnSelectDrawable);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(mIndicatorWidth,
+                    mIndicatorHeight);
+            lp.leftMargin = i == 0 ? 0 : mIndicatorGap;
+            mLlIndicators.addView(iv, lp);
+            mIndicatorViews.add(iv);
         }
 
-        setCurrentIndicator(currentPositon);
+        setCurrentIndicator(mCurrentPositon);
 
-        return ll_indicators;
+        return mLlIndicators;
     }
 
     @Override
     public void setCurrentIndicator(int position) {
-        for (int i = 0; i < indicatorViews.size(); i++) {
-            indicatorViews.get(i).setImageDrawable(i == position ? selectDrawable : unSelectDrawable);
+        for (int i = 0; i < mIndicatorViews.size(); i++) {
+            mIndicatorViews.get(i).setImageDrawable(i == position ? mSelectDrawable : mUnSelectDrawable);
         }
         try {
-//            Log.d(TAG, "position--->" + position);
-//            Log.d(TAG, "lastPositon--->" + lastPositon);
-            if (selectAnimClass != null) {
-                if (position == lastPositon) {
-                    selectAnimClass.newInstance().playOn(indicatorViews.get(position));
+            if (mSelectAnimClass != null) {
+                if (position == mLastPositon) {
+                    mSelectAnimClass.newInstance().playOn(mIndicatorViews.get(position));
                 } else {
-                    selectAnimClass.newInstance().playOn(indicatorViews.get(position));
-                    if (unselectAnimClass == null) {
-                        selectAnimClass.newInstance().interpolator(new ReverseInterpolator()).playOn(indicatorViews.get(lastPositon));
+                    mSelectAnimClass.newInstance().playOn(mIndicatorViews.get(position));
+                    if (mUnselectAnimClass == null) {
+                        mSelectAnimClass.newInstance().interpolator(new ReverseInterpolator()).playOn(mIndicatorViews.get(mLastPositon));
                     } else {
-                        unselectAnimClass.newInstance().playOn(indicatorViews.get(lastPositon));
+                        mUnselectAnimClass.newInstance().playOn(mIndicatorViews.get(mLastPositon));
                     }
                 }
             }
@@ -123,58 +120,57 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         }
     }
 
-    /** set indicator style,STYLE_DRAWABLE_RESOURCE or STYLE_CORNER_RECTANGLE */
+    /** 设置显示样式,STYLE_DRAWABLE_RESOURCE or STYLE_CORNER_RECTANGLE */
     public T setIndicatorStyle(int indicatorStyle) {
-        this.indicatorStyle = indicatorStyle;
+        this.mIndicatorStyle = indicatorStyle;
         return (T) this;
     }
 
-    /** set indicator width, unit dp,default 6dp */
+    /** 设置显示宽度,单位dp,默认6dp */
     public T setIndicatorWidth(float indicatorWidth) {
-        this.indicatorWidth = dp2px(indicatorWidth);
+        this.mIndicatorWidth = dp2px(indicatorWidth);
         return (T) this;
     }
 
-    /** set indicator height,unit dp,default 6dp */
+    /** 设置显示器高度,单位dp,默认6dp */
     public T setIndicatorHeight(float indicatorHeight) {
-        this.indicatorHeight = dp2px(indicatorHeight);
+        this.mIndicatorHeight = dp2px(indicatorHeight);
         return (T) this;
     }
 
-    /** set gap between two indicators,unit dp,default 6dp */
+    /** 设置两个显示器间距,单位dp,默认6dp */
     public T setIndicatorGap(float indicatorGap) {
-        this.indicatorGap = dp2px(indicatorGap);
+        this.mIndicatorGap = dp2px(indicatorGap);
         return (T) this;
     }
 
-    /** set indicator select color for STYLE_CORNER_RECTANGLE,default "#ffffff" */
+    /** 设置显示器选中颜色(for STYLE_CORNER_RECTANGLE),默认"#ffffff" */
     public T setIndicatorSelectColor(int selectColor) {
-        this.selectColor = selectColor;
+        this.mSelectColor = selectColor;
         return (T) this;
     }
 
-    /** set indicator unselect color for STYLE_CORNER_RECTANGLE,default "#88ffffff" */
+    /** 设置显示器未选中颜色(for STYLE_CORNER_RECTANGLE),默认"#88ffffff" */
     public T setIndicatorUnselectColor(int unselectColor) {
-        this.unselectColor = unselectColor;
+        this.mUnselectColor = unselectColor;
         return (T) this;
     }
 
-    /** set indicator corner raduis for STYLE_CORNER_RECTANGLE,unit dp,default 3dp */
+    /** 设置显示器圆角弧度(for STYLE_CORNER_RECTANGLE),单位dp,默认3dp */
     public T setIndicatorCornerRadius(float indicatorCornerRadius) {
-        this.indicatorCornerRadius = dp2px(indicatorCornerRadius);
+        this.mIndicatorCornerRadius = dp2px(indicatorCornerRadius);
         return (T) this;
     }
 
-    /** set indicator select and unselect drawable resource for STYLE_DRAWABLE_RESOURCE */
-    @SuppressWarnings("deprecation")
+    /** 设置显示器选中以及未选中资源(for STYLE_DRAWABLE_RESOURCE) */
     public T setIndicatorSelectorRes(int unselectRes, int selectRes) {
         try {
-            if (indicatorStyle == STYLE_DRAWABLE_RESOURCE) {
+            if (mIndicatorStyle == STYLE_DRAWABLE_RESOURCE) {
                 if (selectRes != 0) {
-                    this.selectDrawable = getResources().getDrawable(selectRes);
+                    this.mSelectDrawable = getResources().getDrawable(selectRes);
                 }
                 if (unselectRes != 0) {
-                    this.unSelectDrawable = getResources().getDrawable(unselectRes);
+                    this.mUnSelectDrawable = getResources().getDrawable(unselectRes);
                 }
             }
         } catch (Resources.NotFoundException e) {
@@ -183,15 +179,15 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         return (T) this;
     }
 
-    /** set indicator select anim */
+    /** 设置显示器选中动画*/
     public T setSelectAnimClass(Class<? extends BaseAnimator> selectAnimClass) {
-        this.selectAnimClass = selectAnimClass;
+        this.mSelectAnimClass = selectAnimClass;
         return (T) this;
     }
 
-    /** set indicator unselect anim */
+    /** 设置显示器未选中动画 */
     public T setUnselectAnimClass(Class<? extends BaseAnimator> unselectAnimClass) {
-        this.unselectAnimClass = unselectAnimClass;
+        this.mUnselectAnimClass = unselectAnimClass;
         return (T) this;
     }
 
