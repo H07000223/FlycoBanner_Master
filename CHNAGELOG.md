@@ -32,3 +32,7 @@ Version 2.0.0 *(2016-2-28)*
 ---------------------------
 * code refactoring
 
+Version 2.0.2 *(2016-2-28)*
+---------------------------
+* unify attribute prefix to bb
+

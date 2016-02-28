@@ -52,16 +52,16 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         super(context, attrs, defStyle);
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseIndicatorBanner);
-        mIndicatorStyle = ta.getInt(R.styleable.BaseIndicatorBanner_bib_indicatorStyle, STYLE_CORNER_RECTANGLE);
-        mIndicatorWidth = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorWidth, dp2px(6));
-        mIndicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorHeight, dp2px(6));
-        mIndicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorGap, dp2px(6));
-        mIndicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bib_indicatorCornerRadius, dp2px(3));
-        mSelectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorSelectColor, Color.parseColor("#ffffff"));
-        mUnselectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectColor, Color.parseColor("#88ffffff"));
+        mIndicatorStyle = ta.getInt(R.styleable.BaseIndicatorBanner_bb_indicatorStyle, STYLE_CORNER_RECTANGLE);
+        mIndicatorWidth = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorWidth, dp2px(6));
+        mIndicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorHeight, dp2px(6));
+        mIndicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorGap, dp2px(6));
+        mIndicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorCornerRadius, dp2px(3));
+        mSelectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bb_indicatorSelectColor, Color.parseColor("#ffffff"));
+        mUnselectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bb_indicatorUnselectColor, Color.parseColor("#88ffffff"));
 
-        int selectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bib_indicatorSelectRes, 0);
-        int unselectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bib_indicatorUnselectRes, 0);
+        int selectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bb_indicatorSelectRes, 0);
+        int unselectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bb_indicatorUnselectRes, 0);
         ta.recycle();
 
         //create indicator container

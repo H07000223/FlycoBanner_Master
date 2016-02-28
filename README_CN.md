@@ -1,6 +1,6 @@
 #FlycoBanner-Master
-#### [中文版](https://github.com/H07000223/FlycoBanner_Master/blob/master/README_CN.md)
-An android view looper library. Support for Android 2.2 and up. 
+
+一个Android View轮播库,支持2.2+.
 
 ##Demo
 ![](https://github.com/H07000223/FlycoBanner_Master/blob/master/preview_FlycoBanner.gif)
@@ -141,32 +141,31 @@ sib
 
 |name|format|description|
 |:---:|:---:|:---:|
-| bb_scale | float |scale of Banner height and width,height/screenWidth
-| bb_isLoopEnable | boolean |is LoopViewPager or not,default true
-| bb_delay | integer |delay before start scroll,unit second,default 5 seconds
-| bb_period | integer |scroll period,unit second,default 5 seconds
-| bb_isAutoScrollEnable | boolean |is auto scroll enable,default true
-| bb_barColor | color |set bootom bar color,default transparent
-| bb_isBarShowWhenLast | boolean |set bottom bar show or not when the position is the last 
-| bb_barPaddingLeft | dimension |set bottom bar padding,unit dp
-| bb_barPaddingTop | dimension |set bottom bar padding,unit dp
-| bb_barPaddingRight | dimension |set bottom bar padding,unit dp
-| bb_barPaddingBottom | dimension |set bottom bar padding,unit dp
-| bb_textColor | color |set title text color,default "#ffffff" 
-| bb_textSize | dimension |set title text size,unit sp,default 14sp
-| bb_isTitleShow | boolean |set title show or not,default true 
-| bb_isIndicatorShow | boolean |set indicator show or not,default true 
-| bb_indicatorGravity |enum| Gravity.CENTER or RIGHT or LEFT.if gravity equals CENTER,title will not be supported,default CENTER
-| bb_indicatorStyle |enum|indicator style, `STYLE_DRAWABLE_RESOURCE` or  `STYLE_CORNER_RECTANGLE`
-| bb_indicatorWidth | dimension |indicator width, unit dp, default 6dp
-| bb_indicatorHeight | dimension |indicator height,unit dp,default 6dp
-| bb_indicatorGap | dimension |gap between two indicators,unit dp,default 6dp
-| bb_indicatorSelectColor | color |indicator select color for `STYLE_CORNER_RECTANGLE`, default `"#ffffff"`
-| bb_indicatorUnselectColor | color |indicator unselect color for `STYLE_CORNER_RECTANGLE`, default `"#88ffffff" `
-| bb_indicatorCornerRadius | dimension |indicator corner raduis for `STYLE_CORNER_RECTANGLE`,unit dp, default 3dp 
-| bb_indicatorSelectRes | reference |indicator select drawable resource for `STYLE_DRAWABLE_RESOURCE`
-| bb_indicatorUnselectRes | reference |indicator unselect drawable resource for `STYLE_DRAWABLE_RESOURCE`
-
+| bb_scale | float |Banner高宽比,范围0-1,默认0.5(for LoopViewPager)
+| bb_isLoopEnable | boolean |是否支持循环,默认true
+| bb_delay | integer |滚动延时,默认5秒
+| bb_period | integer |滚动间隔,默认5秒
+| bb_isAutoScrollEnable | 是否支持自动滚动,默认true
+| bb_barColor | color |设置底部背景条颜色,默认透明
+| bb_isBarShowWhenLast | boolean |设置当滚动到最后一个item时是否显示底部背景条
+| bb_barPaddingLeft | dimension |设置底部背景条padding,单位dp
+| bb_barPaddingTop | dimension |设置底部背景条padding,单位dp
+| bb_barPaddingRight | dimension |设置底部背景条padding,单位dp
+| bb_barPaddingBottom | dimension |设置底部背景条padding,单位dp
+| bb_textColor | color |设置标题文字颜色,默认"#ffffff"
+| bb_textSize | dimension |设置标题文字大小,单位sp,默认14sp
+| bb_isTitleShow | boolean |设置是否显示标题,默认true
+| bb_isIndicatorShow | boolean |设置是否显示显示器,默认true
+| bb_indicatorGravity |enum| 设置显示器位置.默认Gravity.CENTER.Gravity.CENTER时文字不显示
+| bb_indicatorStyle |设置显示器样式
+| bb_indicatorWidth | dimension |设置显示器宽度,单位dp,默认6dp
+| bb_indicatorHeight | dimension |设置显示器高度,单位dp,默认6dp
+| bb_indicatorGap | dimension |设置显示器间距,单位dp,默认6dp
+| bb_indicatorSelectColor | color |设置显示器选中颜色,默认"#ffffff"
+| bb_indicatorUnselectColor | color |设置显示器未选中颜色,默认"#88ffffff"
+| bb_indicatorCornerRadius | dimension |设置显示器圆角弧度,单位dp,默认3dp
+| bb_indicatorSelectRes | reference |设置显示器选中drawable资源
+| bb_indicatorUnselectRes | reference |设置显示器未选中drawable资源
 
 
 ##Thanks
