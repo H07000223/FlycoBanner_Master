@@ -137,8 +137,6 @@ sib
 
 ###Attributes
 
-####BaseBanner
-
 |name|format|description|
 |:---:|:---:|:---:|
 | bb_scale | float |scale of Banner height and width,height/screenWidth
