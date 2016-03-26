@@ -64,6 +64,7 @@
     <attr name="bb_indicatorSelectRes" format="reference"/>
     <!-- 设置显示器未选中drawable资源 -->
     <attr name="bb_indicatorUnselectRes" format="reference"/>
+    <attr name="bb_indicatorIsSnap" format="boolean"/>
 
     <declare-styleable name="BaseBanner">
         <attr name="bb_scale"/>
@@ -94,5 +95,6 @@
         <attr name="bb_indicatorCornerRadius"/>
         <attr name="bb_indicatorSelectRes"/>
         <attr name="bb_indicatorUnselectRes"/>
+        <attr name="bb_indicatorIsSnap"/>
     </declare-styleable>
 </resources>
