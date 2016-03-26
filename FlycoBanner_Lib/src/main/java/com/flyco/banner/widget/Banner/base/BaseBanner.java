@@ -3,8 +3,6 @@ package com.flyco.banner.widget.Banner.base;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -13,76 +11,81 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyco.banner.R;
-import com.flyco.banner.widget.LoopViewPager.FixedSpeedScroller;
-import com.flyco.banner.widget.LoopViewPager.LoopViewPager;
+import com.flyco.banner.widget.ScrollViewPager.AutoScrollViewPager;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends RelativeLayout {
-    /** 日志 */
+    /**
+     * 日志
+     */
     private static final String TAG = BaseBanner.class.getSimpleName();
-    /** 单线程池定时任务 */
-    private ScheduledExecutorService mStse;
-    /** 上下文 */
-    protected Context mContext;
-    /** 设备密度 */
+    /**
+     * 设备密度
+     */
     protected DisplayMetrics mDisplayMetrics;
-    /** ViewPager */
-    protected ViewPager mViewPager;
-    /** 数据源 */
-    protected List<E> mDatas = new ArrayList<>();
-    /** 当前position */
-    protected int mCurrentPositon;
-    /** 上一个position */
-    protected int mLastPositon;
-    /** 多久后开始滚动 */
+    /**
+     * ViewPager
+     */
+    private AutoScrollViewPager mViewPager;
+    /**
+     * 数据源
+     */
+    private List<E> mDatas = new ArrayList<>();
+    /**
+     * 当前position
+     */
+    private int mCurrentPositon;
+    /**
+     * 上一个position
+     */
+    private int mLastPositon;
+    /**
+     * 多久后开始滚动
+     */
     private long mDelay;
-    /** 滚动间隔 */
+    /**
+     * 滚动间隔
+     */
     private long mPeriod;
-    /** 是否自动滚动 */
+    /**
+     * 是否自动滚动
+     */
     private boolean mIsAutoScrollEnable;
-    /** 是否正在自动滚动中 */
-    private boolean mIsAutoScrolling;
-    /** 滚动速度 */
-    private int mScrollSpeed = 450;
-    /** 切换动画 */
+    /**
+     * 切换动画
+     */
     private Class<? extends ViewPager.PageTransformer> mTransformerClass;
 
-    /** 显示器(小点)的最顶层父容器 */
-    private RelativeLayout mRlBottomBarParent;
     private int mItemWidth;
     private int mItemHeight;
 
-    /** 显示器和标题的直接父容器 */
+    /**
+     * 显示器和标题的直接父容器
+     */
     private LinearLayout mLlBottomBar;
-    /** 最后一条item是否显示背景条 */
+    /**
+     * 最后一条item是否显示背景条
+     */
     private boolean mIsBarShowWhenLast;
 
-    /** 显示器的的直接容器 */
+    /**
+     * 显示器的的直接容器
+     */
     private LinearLayout mLlIndicatorContainer;
 
-    /** 标题 */
+    /**
+     * 标题
+     */
     private TextView mTvTitle;
-
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            scrollToNextItem(mCurrentPositon);
-        }
-    };
 
     public BaseBanner(Context context) {
         this(context, null, 0);
@@ -94,7 +97,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
 
     public BaseBanner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.mContext = context;
         mDisplayMetrics = context.getResources().getDisplayMetrics();
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseBanner);
@@ -122,7 +124,9 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
 
         //create ViewPager
-        mViewPager = isLoopEnable ? new LoopViewPager(context) : new ViewPager(context);
+        mViewPager = new AutoScrollViewPager(context);
+        mViewPager.setBoundaryLooping(isLoopEnable);
+
         mItemWidth = mDisplayMetrics.widthPixels;
         if (scale < 0) {//scale not set in xml
             if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
@@ -146,15 +150,12 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         LayoutParams lp = new LayoutParams(mItemWidth, mItemHeight);
         addView(mViewPager, lp);
 
-        //top parent of indicators
-        mRlBottomBarParent = new RelativeLayout(context);
-        addView(mRlBottomBarParent, lp);
 
         //container of indicators and title
         mLlBottomBar = new LinearLayout(context);
         LayoutParams lp2 = new LayoutParams(mItemWidth, LayoutParams.WRAP_CONTENT);
         lp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        mRlBottomBarParent.addView(mLlBottomBar, lp2);
+        addView(mLlBottomBar, lp2);
 
         mLlBottomBar.setBackgroundColor(barColor);
         mLlBottomBar.setPadding((int) barPaddingLeft, (int) barPaddingTop, (int) barPaddingRight, (int) barPaddingBottom);
@@ -200,115 +201,148 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
     }
 
-    /** 创建ViewPager的Item布局 */
-    public abstract View onCreateItemView(int position);
+    /**
+     * 创建ViewPager的Item布局
+     */
+    public abstract View onCreateItemView(int position, List<E> mDatas);
 
-    /** 创建显示器 */
-    public abstract View onCreateIndicator();
-
-    /** 设置当前显示器的状态,选中或者未选中 */
-    public abstract void setCurrentIndicator(int position);
-
-    /** 覆写这个方法设置标题 */
-    public void onTitleSlect(TextView tv, int position) {
+    /**
+     * 创建显示器
+     */
+    public View onCreateIndicator(int position, List<E> mDatas) {
+        return new LinearLayout(getContext());
     }
 
-    /** 设置数据源 */
+    /**
+     * 设置当前显示器的状态,选中或者未选中
+     */
+    public void onIndicatorSelect(int mLastPositon, int mCurrentPositon) {
+    }
+
+    /**
+     *
+     */
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    public void onPageSelected(int position) {
+    }
+
+    /**
+     * 覆写这个方法设置标题
+     */
+    public void onTitleSlect(TextView tv, int position, List<E> mDatas) {
+    }
+
+    /**
+     * 设置数据源
+     */
     public T setSource(List<E> list) {
         this.mDatas = list;
         return (T) this;
     }
 
-    /** 滚动延时,默认5秒 */
+    /**
+     * 滚动延时,默认5秒
+     */
     public T setDelay(long delay) {
         this.mDelay = delay;
         return (T) this;
     }
 
-    /** 滚动间隔,默认5秒 */
+    /**
+     * 滚动间隔,默认5秒
+     */
     public T setPeriod(long period) {
         this.mPeriod = period;
         return (T) this;
     }
 
-    /** 设置是否支持自动滚动,默认true.仅对LoopViewPager有效 */
+    /**
+     * 设置是否支持自动滚动,默认true.仅对LoopViewPager有效
+     */
     public T setAutoScrollEnable(boolean isAutoScrollEnable) {
         this.mIsAutoScrollEnable = isAutoScrollEnable;
         return (T) this;
     }
 
-    /** 设置页面切换动画 */
+    /**
+     * 设置页面切换动画
+     */
     public T setTransformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
         this.mTransformerClass = transformerClass;
         return (T) this;
     }
 
-    /** 设置底部背景条颜色,默认透明 */
+    /**
+     * 设置底部背景条颜色,默认透明
+     */
     public T setBarColor(int barColor) {
         mLlBottomBar.setBackgroundColor(barColor);
         return (T) this;
     }
 
-    /** 设置最后一条item是否显示背景条,默认true */
+    /**
+     * 设置最后一条item是否显示背景条,默认true
+     */
     public T setBarShowWhenLast(boolean isBarShowWhenLast) {
         this.mIsBarShowWhenLast = isBarShowWhenLast;
         return (T) this;
     }
 
-    /** 设置底部背景条padding,单位dp */
+    /**
+     * 设置底部背景条padding,单位dp
+     */
     public T barPadding(float left, float top, float right, float bottom) {
         mLlBottomBar.setPadding(dp2px(left), dp2px(top), dp2px(right), dp2px(bottom));
         return (T) this;
     }
 
-    /** 设置标题文字颜色,默认"#ffffff" */
+    /**
+     * 设置标题文字颜色,默认"#ffffff"
+     */
     public T setTextColor(int textColor) {
         mTvTitle.setTextColor(textColor);
         return (T) this;
     }
 
-    /** 设置标题文字大小,单位sp,默认14sp */
+    /**
+     * 设置标题文字大小,单位sp,默认14sp
+     */
     public T setTextSize(float textSize) {
         mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
         return (T) this;
     }
 
-    /** 设置是否显示标题,默认true */
+    /**
+     * 设置是否显示标题,默认true
+     */
     public T setTitleShow(boolean isTitleShow) {
         mTvTitle.setVisibility(isTitleShow ? VISIBLE : INVISIBLE);
         return (T) this;
     }
 
-    /** 设置是否显示显示器,默认true */
+    /**
+     * 设置是否显示显示器,默认true
+     */
     public T setIndicatorShow(boolean isIndicatorShow) {
         mLlIndicatorContainer.setVisibility(isIndicatorShow ? VISIBLE : INVISIBLE);
         return (T) this;
     }
 
-    /** 滚动到下一个item */
-    private void scrollToNextItem(int position) {
-        position++;
-        mViewPager.setCurrentItem(position);
-    }
-
-    /** 设置viewpager */
+    /**
+     * 设置viewpager
+     */
     private void setViewPager() {
         InnerBannerAdapter mInnerAdapter = new InnerBannerAdapter();
         mViewPager.setAdapter(mInnerAdapter);
-        mViewPager.setOffscreenPageLimit(mDatas.size());
 
         try {
             if (mTransformerClass != null) {
                 mViewPager.setPageTransformer(true, mTransformerClass.newInstance());
-                if (isLoopViewPager()) {
-                    mScrollSpeed = 550;
-                    setScrollSpeed();
-                }
-            } else {
-                if (isLoopViewPager()) {
-                    mScrollSpeed = 450;
-                    setScrollSpeed();
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -320,37 +354,35 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         mViewPager.addOnPageChangeListener(mInternalPageListener);
     }
 
-    private ViewPager.OnPageChangeListener mInternalPageListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            if (mOnPageChangeListener != null) {
-                mOnPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            }
-        }
+    private ViewPager.OnPageChangeListener mInternalPageListener = new ViewPager.SimpleOnPageChangeListener() {
 
         @Override
         public void onPageSelected(int position) {
-            mCurrentPositon = position % mDatas.size();
+            mCurrentPositon = position;
 
-            setCurrentIndicator(mCurrentPositon);
-            onTitleSlect(mTvTitle, mCurrentPositon);
+            BaseBanner.this.onPageSelected(position);
+
+            onIndicatorSelect(mLastPositon, mCurrentPositon);
+            onTitleSlect(mTvTitle, mCurrentPositon, mDatas);
             mLlBottomBar.setVisibility(mCurrentPositon == mDatas.size() - 1 && !mIsBarShowWhenLast ? GONE : VISIBLE);
 
             mLastPositon = mCurrentPositon;
-            if (mOnPageChangeListener != null) {
-                mOnPageChangeListener.onPageSelected(position);
-            }
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            BaseBanner.this.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (mOnPageChangeListener != null) {
-                mOnPageChangeListener.onPageScrollStateChanged(state);
-            }
+            BaseBanner.this.onPageScrollStateChanged(state);
         }
     };
 
-    /** 开始滚动 */
+    /**
+     * 开始滚动
+     */
     public void startScroll() {
         if (mDatas == null) {
             throw new IllegalStateException("Data source is empty,you must setSource() before startScroll()");
@@ -360,10 +392,11 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
             mCurrentPositon = 0;
         }
 
-        onTitleSlect(mTvTitle, mCurrentPositon);
         setViewPager();
+        onTitleSlect(mTvTitle, mCurrentPositon, mDatas);
         //create indicator
-        View indicatorViews = onCreateIndicator();
+        View indicatorViews = onCreateIndicator(mCurrentPositon, mDatas);
+
         if (indicatorViews != null) {
             mLlIndicatorContainer.removeAllViews();
             mLlIndicatorContainer.addView(indicatorViews);
@@ -372,76 +405,26 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         goOnScroll();
     }
 
-    /** 继续滚动(for LoopViewPager) */
-    public void goOnScroll() {
-        if (!isValid()) {
-            return;
-        }
+    /**
+     * 继续滚动(for LoopViewPager)
+     */
+    private void goOnScroll() {
 
-        if (mIsAutoScrolling) {
-            return;
-        }
-        if (isLoopViewPager() && mIsAutoScrollEnable) {
-            pauseScroll();
-            mStse = Executors.newSingleThreadScheduledExecutor();
-            mStse.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    mHandler.obtainMessage().sendToTarget();
-                }
-            }, mDelay, mPeriod, TimeUnit.SECONDS);
-            mIsAutoScrolling = true;
+        if (mIsAutoScrollEnable) {
+
+            mViewPager.setInterval(mPeriod * 1000);
+            mViewPager.startAutoScroll(mDelay * 1000);
+
             Log.d(TAG, this.getClass().getSimpleName() + "--->goOnScroll()");
-        } else {
-            mIsAutoScrolling = false;
         }
     }
 
-    /** 停止滚动(for LoopViewPager) */
-    public void pauseScroll() {
-        if (mStse != null) {
-            mStse.shutdown();
-            mStse = null;
-        }
-        Log.d(TAG, this.getClass().getSimpleName() + "--->pauseScroll()");
-
-        mIsAutoScrolling = false;
-    }
-
-    /** 获取ViewPager对象 */
+    /**
+     * 获取ViewPager对象
+     */
     public ViewPager getViewPager() {
         return mViewPager;
     }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                pauseScroll();
-                break;
-            case MotionEvent.ACTION_UP:
-                goOnScroll();
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                goOnScroll();
-                break;
-
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-//    @Override
-//    protected void onWindowVisibilityChanged(int visibility) {
-//        super.onWindowVisibilityChanged(visibility);
-//        if (mIsSmart) {
-//            if (visibility != VISIBLE) {
-//                pauseScroll();
-//            } else {
-//                goOnScroll();
-//            }
-//        }
-//    }
 
     private class InnerBannerAdapter extends PagerAdapter {
         @Override
@@ -451,7 +434,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            View inflate = onCreateItemView(position);
+            View inflate = onCreateItemView(position, mDatas);
             inflate.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -480,52 +463,14 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
     }
 
-    /** 设置滚动速率 */
-    private void setScrollSpeed() {
-        try {
-            Field mScroller = ViewPager.class.getDeclaredField("mScroller");
-            mScroller.setAccessible(true);
-            AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
-            FixedSpeedScroller myScroller = new FixedSpeedScroller(mContext, interpolator, mScrollSpeed);
-            mScroller.set(mViewPager, myScroller);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     protected int dp2px(float dp) {
-        float scale = mContext.getResources().getDisplayMetrics().density;
+        float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dp * scale + 0.5F);
     }
 
-    private float sp2px(float sp) {
-        final float scale = mContext.getResources().getDisplayMetrics().scaledDensity;
+    protected float sp2px(float sp) {
+        final float scale = getContext().getResources().getDisplayMetrics().scaledDensity;
         return sp * scale;
-    }
-
-    protected boolean isLoopViewPager() {
-        return mViewPager instanceof LoopViewPager;
-    }
-
-    protected boolean isValid() {
-        if (mViewPager == null) {
-            Log.e(TAG, "ViewPager is not exist!");
-            return false;
-        }
-
-        if (mDatas == null || mDatas.size() == 0) {
-            Log.e(TAG, "DataList must be not empty!");
-            return false;
-        }
-
-        return true;
-    }
-
-    //listener
-    private ViewPager.OnPageChangeListener mOnPageChangeListener;
-
-    public void addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mOnPageChangeListener = listener;
     }
 
     private OnItemClickL mOnItemClickL;

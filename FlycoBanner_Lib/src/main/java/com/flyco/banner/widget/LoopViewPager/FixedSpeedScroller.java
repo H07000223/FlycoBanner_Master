@@ -16,6 +16,14 @@ public class FixedSpeedScroller extends Scroller {
         this.mScrollSpeed = scrollSpeed;
     }
 
+    /**
+     * Set the factor by which the duration will change
+     */
+    public void setScrollDurationFactor(int scrollFactor) {
+        this.mScrollSpeed = scrollFactor;
+    }
+
+
     @Override
     public void startScroll(int startX, int startY, int dx, int dy, int duration) {
         super.startScroll(startX, startY, dx, dy, this.mScrollSpeed);

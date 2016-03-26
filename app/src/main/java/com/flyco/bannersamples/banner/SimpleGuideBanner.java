@@ -11,6 +11,8 @@ import com.flyco.banner.widget.Banner.BaseIndicatorBanner;
 import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.utils.ViewFindUtils;
 
+import java.util.List;
+
 public class SimpleGuideBanner extends BaseIndicatorBanner<Integer, SimpleGuideBanner> {
     public SimpleGuideBanner(Context context) {
         this(context, null, 0);
@@ -26,15 +28,15 @@ public class SimpleGuideBanner extends BaseIndicatorBanner<Integer, SimpleGuideB
     }
 
     @Override
-    public View onCreateItemView(int position) {
-        View inflate = View.inflate(mContext, R.layout.adapter_simple_guide, null);
+    public View onCreateItemView(int position, List<Integer> mDatas) {
+        View inflate = View.inflate(getContext(), R.layout.adapter_simple_guide, null);
         ImageView iv = ViewFindUtils.find(inflate, R.id.iv);
         TextView tv_jump = ViewFindUtils.find(inflate, R.id.tv_jump);
 
         final Integer resId = mDatas.get(position);
         tv_jump.setVisibility(position == mDatas.size() - 1 ? VISIBLE : GONE);
 
-        Glide.with(mContext)
+        Glide.with(getContext())
                 .load(resId)
                 .into(iv);
 

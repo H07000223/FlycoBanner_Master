@@ -16,6 +16,8 @@ import com.flyco.bannersamples.R;
 import com.flyco.bannersamples.entity.BannerItem;
 import com.flyco.bannersamples.utils.ViewFindUtils;
 
+import java.util.List;
+
 public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleImageBanner> {
     private ColorDrawable colorDrawable;
 
@@ -33,14 +35,14 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
     }
 
     @Override
-    public void onTitleSlect(TextView tv, int position) {
+    public void onTitleSlect(TextView tv, int position,List<BannerItem> mDatas) {
         final BannerItem item = mDatas.get(position);
         tv.setText(item.title);
     }
 
     @Override
-    public View onCreateItemView(int position) {
-        View inflate = View.inflate(mContext, R.layout.adapter_simple_image, null);
+    public View onCreateItemView(int position, List<BannerItem> mDatas) {
+        View inflate = View.inflate(getContext(), R.layout.adapter_simple_image, null);
         ImageView iv = ViewFindUtils.find(inflate, R.id.iv);
 
         final BannerItem item = mDatas.get(position);
@@ -52,7 +54,7 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
         String imgUrl = item.imgUrl;
 
         if (!TextUtils.isEmpty(imgUrl)) {
-            Glide.with(mContext)
+            Glide.with(getContext())
                     .load(imgUrl)
                     .override(itemWidth, itemHeight)
                     .centerCrop()

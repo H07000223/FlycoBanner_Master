@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         banner:bb_barPaddingLeft="8dp"
+        banner:bb_isAutoScrollEnable="false"
         banner:bb_isLoopEnable="false"/>
 
 </RelativeLayout>

@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2013 Leszek Mzyk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.flyco.banner.widget.LoopViewPager;
 
 import android.os.Parcelable;
@@ -11,7 +27,7 @@ import android.view.ViewGroup;
 /**
  * A PagerAdapter wrapper responsible for providing a proper page to
  * LoopViewPager
- * 
+ *
  * This class shouldn't be used directly
  */
 public class LoopPagerAdapterWrapper extends PagerAdapter {
@@ -20,15 +36,24 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
 
 	private SparseArray<ToDestroy> mToDestroy = new SparseArray<ToDestroy>();
 
-	private boolean mBoundaryCaching;
+    private static final boolean DEFAULT_BOUNDARY_CASHING = true;
+    private static final boolean DEFAULT_BOUNDARY_LOOPING = true;
+
+    private boolean mBoundaryCaching = DEFAULT_BOUNDARY_CASHING;
+    private boolean mBoundaryLooping = DEFAULT_BOUNDARY_LOOPING;
 
 	void setBoundaryCaching(boolean flag) {
 		mBoundaryCaching = flag;
 	}
 
-	LoopPagerAdapterWrapper(PagerAdapter adapter) {
-		this.mAdapter = adapter;
-	}
+
+    void setBoundaryLooping(boolean flag) {
+        mBoundaryLooping = flag;
+    }
+
+    LoopPagerAdapterWrapper(PagerAdapter adapter) {
+        this.mAdapter = adapter;
+    }
 
 	@Override
 	public void notifyDataSetChanged() {
@@ -36,34 +61,38 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
 		super.notifyDataSetChanged();
 	}
 
-	int toRealPosition(int position) {
-		int realCount = getRealCount();
-		if (realCount == 0)
-			return 0;
-		int realPosition = (position - 1) % realCount;
-		if (realPosition < 0)
-			realPosition += realCount;
+    int toRealPosition(int position) {
+        int realPosition = position;
+        int realCount = getRealCount();
+        if (realCount == 0)
+            return 0;
+        if (mBoundaryLooping) {
+            realPosition = (position - 1) % realCount;
+            if (realPosition < 0)
+                realPosition += realCount;
+        }
 
 		return realPosition;
 	}
 
-	public int toInnerPosition(int realPosition) {
-		int position = (realPosition + 1);
-		return position;
-	}
+    public int toInnerPosition(int realPosition) {
+        int position = (realPosition + 1);
+        return mBoundaryLooping ? position : realPosition;
+    }
 
-	private int getRealFirstPosition() {
-		return 1;
-	}
+    private int getRealFirstPosition() {
+        return mBoundaryLooping ? 1 : 0;
+    }
 
-	private int getRealLastPosition() {
-		return getRealFirstPosition() + getRealCount() - 1;
-	}
+    private int getRealLastPosition() {
+        return getRealFirstPosition() + getRealCount() - 1;
+    }
 
-	@Override
-	public int getCount() {
-		return mAdapter.getCount() + 2;
-	}
+    @Override
+    public int getCount() {
+        int count = getRealCount();
+        return mBoundaryLooping ? count + 2 : count;
+    }
 
 	public int getRealCount() {
 		return mAdapter.getCount();
