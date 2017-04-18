@@ -1,13 +1,13 @@
-#FlycoBanner-Master
+# FlycoBanner-Master
 #### [中文版](https://github.com/H07000223/FlycoBanner_Master/blob/master/README_CN.md)
 An android view looper library. Support for Android 2.2 and up. 
 
-##Demo
+## Demo
 ![](https://github.com/H07000223/FlycoBanner_Master/blob/master/preview_FlycoBanner.gif)
 
-####[Here is a DemoApk download](http://fir.im/7qzm)
+#### [Here is a DemoApk download](http://fir.im/7qzm)
 
-##Gradle
+## Gradle
 
 ```groovy
 dependencies{
@@ -17,9 +17,9 @@ dependencies{
 }
 ```
 
-##Usage
+## Usage
 
-###Extends BaseIndicatorBanner and Set Data Type
+### Extends BaseIndicatorBanner and Set Data Type
 
 ```Java
 public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleImageBanner> {
@@ -73,7 +73,7 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
 }
 ```
 
-###The Most Complex
+### The Most Complex
 in layout xml
 
 ``` xml
@@ -116,7 +116,7 @@ sib
     .startScroll();
 ```
 
-###The Simplest
+### The Simplest
 in layout xml
 
 ``` xml
@@ -135,7 +135,7 @@ sib
    .startScroll();
 ```
 
-###Attributes
+### Attributes
 
 |name|format|description|
 |:---:|:---:|:---:|
@@ -167,6 +167,6 @@ sib
 
 
 
-##Thanks
+## Thanks
 *   [LoopingViewPager](https://github.com/imbryk/LoopingViewPager)
 *   [NineOldAndroids](https://github.com/JakeWharton/NineOldAndroids)
